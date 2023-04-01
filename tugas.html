@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {font-family: Arial;}
+
+        /* Style the tab */
+        .tab {
+        overflow: hidden;
+        border: 1px solid #ccc;
+        background-color: #f1f1f1;
+        }
+
+        /* Style the buttons inside the tab */
+        .tab button {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+        font-size: 17px;
+        }
+
+        /* Change background color of buttons on hover */
+        .tab button:hover {
+        background-color: #ddd;
+        }
+
+        /* Create an active/current tablink class */
+        .tab button.active {
+        background-color: #ccc;
+        }
+
+        /* Style the tab content */
+        .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        border: 1px solid #ccc;
+        border-top: none;
+        }
+
+        table, th, td {
+            border:1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'Register')">Register</button>
+        <button class="tablinks" onclick="openTab(event, 'List')">List Peserta</button>
+      </div>
+
+      <div id="Register" class="tabcontent">
+        <h3>Register Peserta</h3>
+        <form id="student_form" onsubmit="">
+            <label for="fname">name:</label><br>
+            <input type="text" id="name" name="name" value="John"><br>
+            <label for="lname">age:</label><br>
+            <input type="text" id="age" name="age" value=25><br>
+            <label for="lname">uang sangu:</label><br>
+            <input type="text" id="uangSangu" name="uangSangu" value=100000><br><br>
+            <input type="button" value="Submit" onclick="setAction()">
+          </form>
+      </div>
+      
+      <div id="List" class="tabcontent">
+        <h3>List Peserta</h3>
+        <div id="empTable">
+        </div>
+      </div>      
+
+      <script>
+        // create students array
+        let arrStudents = []
+        
+        // function Student(firstname, lastname){
+            
+        // }
+
+        class Student {
+            constructor(name, age, uangSangu) {
+                this.name = name
+                this.age = age
+                this.uangSangu = uangSangu
+            }
+        }
+
+        function openTab(evt, cityName) {
+            showTableData()
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(cityName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        async function setAction(form) {
+            let name = document.getElementById("name").value
+            let age = document.getElementById("age").value
+            let uangSangu = document.getElementById("uangSangu").value
+
+
+            let newStudent = await new Student(name, age, uangSangu)
+            await arrStudents.push({name: newStudent.name, age: newStudent.age, uangSangu: newStudent.uangSangu})
+            // console.log(arrStudents)
+        }
+
+        function showTableData() {
+            var outputHTML = ""
+            outputHTML += "<table border='2px' width='400'>";
+
+            outputHTML += '<tr><td> First Name </td> <td> Last Name </td></tr>';
+            console.log(arrStudents)
+            for (let i = 0; i < arrStudents.length; i++) {
+                console.log(arrStudents[i].name)
+                outputHTML += '<tr><td>' + arrStudents[i].name + '</td>'+ '<td>' + arrStudents[i].name + '</td>'+ '<td>' + arrStudents[i].age + '</td></tr>';
+            }
+
+            outputHTML += "</table>";
+
+            document.getElementById("empTable").innerHTML = outputHTML;
+        }
+
+        
+        </script>
+</body>
+</html>
